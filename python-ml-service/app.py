@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import pandas as pd
+import pandas as  pd
 import os
 
 app = Flask(__name__)
