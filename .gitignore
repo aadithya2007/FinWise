@@ -1,0 +1,20 @@
+# Python
+venv/
+*.pyc
+__pycache__/
+*.npy
+
+# Node.js
+node_modules/
+.npm/
+build/
+
+# Secrets (VERY IMPORTANT)
+.env
+*.env*
+!*.env.example
+
+# IDE & OS files
+.idea/
+.vscode/
+.DS_Store
