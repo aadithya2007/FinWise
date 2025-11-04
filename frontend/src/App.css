@@ -1,3 +1,6 @@
+/* :root contains the DEFAULT theme (Dark Mode) 
+  All CSS variables for dark mode are defined here.
+*/
 :root {
   --background-color: #121212;
   --primary-text-color: #e0e0e0;
@@ -10,6 +13,23 @@
   --border-color: #333;
 }
 
+/* This new rule defines the Light Mode variables.
+  It's triggered when the <html> tag has data-theme="light"
+*/
+:root[data-theme='light'] {
+  --background-color: #f9f9f9;
+  --primary-text-color: #1a1a1a;
+  --secondary-text-color: #555555;
+  --sidebar-bg: #ffffff;
+  --chat-input-bg: #ffffff;
+  --user-message-bg: #d1eaff; /* Light blue */
+  --bot-message-bg: #f1f1f1; /* Light grey */
+  --border-color: #eeeeee;
+}
+
+/* Base body styles now correctly use the CSS variables,
+  so they update automatically when the theme changes.
+*/
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,48 +39,43 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
   color: var(--primary-text-color);
+  /* Added a transition for smooth color changes */
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .app-container {
   display: flex;
+  /* --- CHANGED --- */
+  flex-direction: column; /* Stack top-bar and chat-window vertically */
   height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
 
-/* --- Sidebar --- */
-.sidebar {
-  width: 260px;
-  background-color: var(--sidebar-bg);
-  padding: 20px;
-  border-right: 1px solid var(--border-color);
+/* --- New Top Bar Style --- */
+.top-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end; /* Buttons to the right */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--sidebar-bg); /* Use sidebar bg color */
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.new-chat-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: var(--accent-color);
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-.new-chat-btn:hover {
-  opacity: 0.9;
-}
+
+/* --- Sidebar style REMOVED --- */
+
 
 /* --- Chat Window --- */
 .chat-window {
-  flex-grow: 1;
+  flex-grow: 1; /* Takes up remaining vertical space */
   display: flex;
   flex-direction: column;
   padding: 20px;
-  /* This makes sure the input bar is at the bottom */
-  height: calc(100vh - 40px); 
+  /* --- CHANGED --- */
+  height: auto; /* No longer needs fixed height */
+  overflow: hidden; /* Added to prevent layout issues */
 }
 
 .messages {
@@ -78,7 +93,9 @@ body {
   margin-bottom: 10px;
   max-width: 70%;
   line-height: 1.5;
-  white-space: pre-wrap; /* Renders newlines */
+  white-space: pre-wrap;
+  color: var(--primary-text-color);
+  transition: background-color 0.2s ease;
 }
 
 .user {
@@ -106,21 +123,40 @@ body {
   color: var(--primary-text-color);
   font-size: 16px;
   outline: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 .chat-input:focus {
   border-color: var(--accent-color);
 }
+
+/* --- Button Styles REDESIGNED --- */
+.theme-toggle-btn,
 .logout-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #f44336; /* Red color */
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
+  background-color: var(--chat-input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--primary-text-color);
+  font-size: 1.5rem; /* Larger for emoji */
+  width: 50px; /* Small, fixed width */
+  height: 50px; /* Small, fixed height */
+  border-radius: 50%; /* Make it round */
   cursor: pointer;
-  margin-top: auto; /* Pushes it to the bottom of the sidebar */
+  margin-left: 10px;
+  
+  /* Centering the emoji */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Resetting old styles */
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: background-color 0.2s, border-color 0.2s;
 }
+
+.theme-toggle-btn:hover,
 .logout-btn:hover {
-  opacity: 0.9;
+  background-color: var(--bot-message-bg);
+  border-color: var(--accent-color);
 }
+
